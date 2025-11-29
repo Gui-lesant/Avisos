@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenvolvedor de Jogos - Cronograma Interativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff3366;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f0f0f0;
+            --success: #00ff88;
+            --warning: #ffcc00;
+            --danger: #ff3333;
+            --info: #00ccff;
+            --uc1: #6a11cb;
+            --uc2: #2575fc;
+            --uc3: #ff3366;
+            --uc4: #00ff88;
+            --uc5: #ffcc00;
+            --uc6: #00ccff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(37, 117, 252, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 20px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.03) 50%),
+                linear-gradient(transparent 50%, rgba(255,255,255,0.03) 50%);
+            background-size: 30px 30px;
+            opacity: 0.3;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .course-info {
+            text-align: right;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-info h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .course-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 20px 0;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        /* Section Base Styles */
+        .game-section, .progress-section, .card {
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-section::before, .progress-section::before, .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--accent);
+            text-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+        }
+
+        .section-icon {
+            font-size: 1.8rem;
+            color: var(--secondary);
+        }
+
+        /* Game Styles */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .game-canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            border: 3px solid var(--accent);
+        }
+
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .game-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .game-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: rgba(40, 40, 50, 0.6);
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 5px rgba(255, 51, 102, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .game-instructions {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Progress Styles */
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(40, 40, 50, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Card Styles */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-content {
+            font-size: 0.95rem;
+        }
+
+        .card-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .card-content li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-content li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, rgba(106, 17, 203, 0.2) 0%, rgba(37, 117, 252, 0.2) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .status-completed {
+            background-color: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-current {
+            background-color: rgba(0, 204, 255, 0.2);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+
+        .status-upcoming {
+            background-color: rgba(255, 204, 0, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        /* Curriculum Styles */
+        .curriculum-container {
+            grid-column: 1 / -1;
+        }
+
+        .curriculum-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-img-placeholder i {
+            font-size: 120px;
+            color: var(--accent);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .profile-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            color: var(--accent);
+            width: 16px;
+        }
+
+        .curriculum-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-content {
+            background: rgba(40, 40, 50, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .experience-item:last-child, .education-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .item-period {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .item-subtitle {
+            font-style: italic;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            grid-column: 1 / -1;
+        }
+
+        .timeline {
+            position: relative;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(20, 20, 30, 0.7);
+        }
+
+        .timeline::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .timeline::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .timeline::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: -25px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-date {
+            min-width: 100px;
+            text-align: center;
+            padding: 8px 12px;
+            background: rgba(106, 17, 203, 0.3);
+            border-radius: 20px;
+            font-weight: 500;
+            margin-right: 20px;
+            border: 1px solid rgba(106, 17, 203, 0.5);
+            z-index: 1;
+            position: relative;
+        }
+
+        .timeline-date.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--success);
+            color: var(--dark);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .timeline-date.cancelled::after {
+            content: '✗';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: var(--light);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(40, 40, 50, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .timeline-content h4 {
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .event-holiday .timeline-date {
+            background: rgba(255, 204, 0, 0.3);
+            border-color: rgba(255, 204, 0, 0.5);
+        }
+
+        .event-holiday .timeline-content {
+            border-left-color: var(--warning);
+        }
+
+        .event-change .timeline-date {
+            background: rgba(255, 51, 51, 0.3);
+            border-color: rgba(255, 51, 51, 0.5);
+        }
+
+        .event-change .timeline-content {
+            border-left-color: var(--danger);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(30, 30, 40, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-right: 30px;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .modal-date {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: rgba(10, 10, 15, 0.9);
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(106, 17, 203, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .course-info {
+                text-align: center;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+            }
+            
+            .timeline-item::before {
+                left: 15px;
+            }
+            
+            .timeline-date {
+                margin-right: 0;
+                margin-bottom: 10px;
+                align-self: flex-start;
+            }
+
+            .curriculum-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-contact {
+                justify-content: center;
+            }
+
+            .game-stats, .progress-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-contact {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .game-stats, .progress-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .game-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .game-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="logo-text">Desenvolvedor de Jogos</div>
+                </div>
+                <div class="course-info">
+                    <h2>Turma: 1400006249</h2>
+                    <p>Passo Fundo | Sábados | 8h às 12h | Sala 307</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Game Section -->
+        <section class="game-section">
+            <div class="section-header">
+                <h3 class="section-title">Jogo de Corrida com Obstáculos</h3>
+                <div class="section-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+            </div>
+            <div class="game-container">
+                <div class="game-canvas-container">
+                    <canvas id="game-canvas" width="800" height="400"></canvas>
+                </div>
+                <div class="game-controls">
+                    <button class="game-btn" id="start-game">Iniciar Jogo</button>
+                    <button class="game-btn" id="pause-game" disabled>Pausar</button>
+                    <button class="game-btn" id="reset-game">Reiniciar</button>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="score">0</div>
+                        <div class="stat-label">Pontuação</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="high-score">0</div>
+                        <div class="stat-label">Recorde</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="obstacles">0</div>
+                        <div class="stat-label">Obstáculos</div>
+                    </div>
+                </div>
+                <div class="game-instructions">
+                    <p><i class="fas fa-info-circle"></i> Pressione ESPAÇO ou clique para pular os obstáculos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section">
+            <div class="section-header">
+                <h3 class="section-title">Progresso do Curso</h3>
+                <div class="section-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span id="progress-text">0% Concluído</span>
+                    <span id="progress-dates">0 de 0 aulas</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="completed-classes">0</div>
+                        <div class="stat-label">Aulas Concluídas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="remaining-classes">0</div>
+                        <div class="stat-label">Aulas Restantes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="days-until-end">0</div>
+                        <div class="stat-label">Dias até o Final</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="current-uc">UC1</div>
+                        <div class="stat-label">Unidade Atual</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="dashboard">
+            <!-- Informações do Curso -->
+            <div class="card">
+                <div class="section-header">
+                    <h3 class="section-title">Informações do Curso</h3>
+                    <div class="section-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Curso completo de Desenvolvimento de Jogos Eletrônicos com foco na criação e manutenção de assets para jogos.</p>
+                    <div class="highlight">
+                        <p><strong>Carga Horária Total:</strong> 240 horas</p>
+                        <p><strong>Duração:</strong> Set/2025 a Dez/2026</p>
+                        <p><strong>Frequência Mínima:</strong> 75%</p>
+                    </div>
+                    <p>O curso está organizado em 6 componentes curriculares de 40 horas cada.</p>
+                </div>
+            </div>
+
+            <!-- Componentes Curriculares -->
+            <div class="card">
+                <div class="section-header">
+                    <h3 class="section-title">Componentes Curriculares</h3>
+                    <div class="section-icon">
+                        <i class="fas fa-list-ul"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <ul id="curriculum-components">
+                        <!-- Será preenchido via JavaScript -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Equipe Docente -->
+            <div class="card">
+                <div class="section-header">
+                    <h3 class="section-title">Equipe Docente</h3>
+                    <div class="section-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p><strong>Guilherme</strong> - UC1 a UC6: Todo o curso</p>
+                    <div class="highlight">
+                        <p><i class="fas fa-exclamation-triangle"></i> <strong>Atenção:</strong> Houve mudança de professor na UC1 a partir de 29/11/2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Currículo Profissional -->
+            <div class="card curriculum-container">
+                <div class="section-header">
+                    <h3 class="section-title">Currículo Profissional</h3>
+                    <div class="section-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="curriculum-header">
+                        <div class="profile-img-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Guilherme Gonçalves dos Santos</h2>
+                            <p class="profile-title">Professor de Tecnologia da Informação</p>
+                            <div class="profile-contact">
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Passo Fundo – RS</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>guilherme.santos@pmpf.rs.gov.br</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>54-999771610</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="curriculum-section">
+                        <h3 class="section-title">Resumo Profissional</h3>
+                        <div class="section-content">
+                            <p>Profissional com sólida formação em Tecnologia da Informação aplicada à Saúde, com experiência em gestão, ensino e integração de sistemas públicos. Atua com foco em interoperabilidade, regulação e manutenção de plataformas digitais do SUS. Excelente capacidade de articulação com equipes multidisciplinares e disponibilidade para viagens e missões técnicas.</p>
+                        </div>
+                    </div>
+
+                    <div class="curriculum-section">
+                        <h3 class="section-title">Formação Acadêmica</h3>
+                        <div class="section-content">
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div class="item-title">Licenciatura em Informática</div>
+                                    <div class="item-period">Em andamento</div>
+                                </div>
+                            </div>
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div class="item-title">Pós-graduação em Informática na Educação</div>
+                                </div>
+                            </div>
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div class="item-title">Pós-graduação em Gestão da Tecnologia da Informação</div>
+                                </div>
+                            </div>
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div class="item-title">Graduação em Gestão da Tecnologia da Informação</div>
+                                </div>
+                            </div>
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <div class="item-title">Técnico em Redes de Computadores</div>
+                                    <div class="item-period">CETAP RJ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="curriculum-section">
+                        <h3 class="section-title">Experiência Profissional</h3>
+                        <div class="section-content">
+                            <div class="experience-item">
+                                <div class="item-header">
+                                    <div class="item-title">Gerente em Saúde TI</div>
+                                    <div class="item-period">2024 - Atual</div>
+                                </div>
+                                <div class="item-subtitle">Secretaria de Saúde de Passo Fundo</div>
+                                <div class="item-description">
+                                    <p>Atuação na área de TI com manutenção de serviços e aplicações.</p>
+                                </div>
+                            </div>
+                            <div class="experience-item">
+                                <div class="item-header">
+                                    <div class="item-title">Professor de Tecnologias</div>
+                                    <div class="item-period">2020 - Atual</div>
+                                </div>
+                                <div class="item-subtitle">SENAC RS – Passo Fundo (turno noite)</div>
+                            </div>
+                            <div class="experience-item">
+                                <div class="item-header">
+                                    <div class="item-title">Analista de TI</div>
+                                    <div class="item-period">2013 - 2024</div>
+                                </div>
+                                <div class="item-subtitle">Universidade de Passo Fundo (antigo emprego - 10 anos)</div>
+                            </div>
+                            <div class="experience-item">
+                                <div class="item-header">
+                                    <div class="item-title">Professor de Tecnologia da Informação</div>
+                                    <div class="item-period">2016 - 2024</div>
+                                </div>
+                                <div class="item-subtitle">Universidade de Passo Fundo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cronograma Detalhado -->
+            <div class="card timeline-container">
+                <div class="section-header">
+                    <h3 class="section-title">Cronograma Detalhado</h3>
+                    <div class="section-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="timeline" id="timeline">
+                        <!-- Será preenchido via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para detalhes da aula -->
+    <div class="modal" id="class-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Título da Aula</h3>
+                <div class="modal-date" id="modal-date">Data da Aula</div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <p>Descrição da aula será exibida aqui.</p>
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <div class="modal-teacher" id="modal-teacher">Professor: Nome</div>
+                <div class="modal-duration" id="modal-duration">Duração: 4h</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 SENAC - Curso Desenvolvedor de Jogos Eletrônicos. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // CONFIGURAÇÃO E DADOS DO CURSO
+        // ==========================================
+
+        const courseData = {
+            startDate: new Date('2025-09-13'),
+            endDate: new Date('2026-12-05'),
+            totalHours: 240,
+            classes: [
+                // UC1 - Modelagem de Cenários
+                { date: '2025-09-13', title: 'UC1 - Modelagem de cenários para jogos', description: 'Introdução à modelagem poligonal para cenários.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-09-20', title: 'Revolução Farroupilha', description: 'Feriado estadual - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2025-09-27', title: 'UC1 - Modelagem de cenários para jogos', description: 'Criação de bibliotecas de assets e modelagem de móveis e acessórios.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-10-04', title: 'UC1 - Modelagem de cenários para jogos', description: 'Conceitos e aplicações de Level Design.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-10-11', title: 'UC1 - Modelagem de cenários para jogos', description: 'Elaboração de modelagem em escala com precisão.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-10-18', title: 'UC1 - Modelagem de cenários para jogos', description: 'Criação de modelagem rápida para cenários low poly.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-10-25', title: 'UC1 - Modelagem de cenários para jogos', description: 'Composição de ambientes internos e externos.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-11-01', title: 'UC1 - Modelagem de cenários para jogos', description: 'Exportação de arquivos e texturas para motor de jogo.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-11-08', title: 'UC1 - Modelagem de cenários para jogos', description: 'Aula com professor substituto.', teacher: 'Professor Substituto', duration: 4, type: 'change', uc: 1 },
+                { date: '2025-11-15', title: 'Proclamação da República', description: 'Feriado nacional - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2025-11-22', title: 'Aula Cancelada', description: 'Aula cancelada pelo professor.', teacher: '', duration: 0, type: 'cancelled', uc: 1 },
+                { date: '2025-11-29', title: 'UC1 - Modelagem de cenários para jogos', description: 'Continuação com o professor Guilherme.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                { date: '2025-12-06', title: 'UC1 - Modelagem de cenários para jogos', description: 'Finalização da UC1 - Revisão e entrega de projetos.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 1 },
+                
+                // UC2 - Modelagem de Personagens
+                { date: '2025-12-13', title: 'UC2 - Modelagem de personagens para jogos', description: 'Início da segunda unidade curricular. Modelagem poligonal para personagens humanoides.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2025-12-19', title: 'Recesso de Fim de Ano', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2025-12-27', title: 'Recesso Unidade', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2026-01-03', title: 'Recesso Unidade', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2026-01-10', title: 'UC2 - Modelagem de personagens para jogos', description: 'Musculatura, membros superiores e inferiores.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-01-17', title: 'UC2 - Modelagem de personagens para jogos', description: 'Características masculinas e femininas, expressões.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-01-24', title: 'UC2 - Modelagem de personagens para jogos', description: 'Linha de movimento para modelagem orgânica.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-01-31', title: 'UC2 - Modelagem de personagens para jogos', description: 'Topologia de personagens.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-02-07', title: 'UC2 - Modelagem de personagens para jogos', description: 'Criação de bibliotecas de assets.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-02-14', title: 'UC2 - Modelagem de personagens para jogos', description: 'Criação de modelagem rápida para personagens low poly.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-02-21', title: 'UC2 - Modelagem de personagens para jogos', description: 'Modelagem para nova geração de consoles.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                { date: '2026-02-28', title: 'UC2 - Modelagem de personagens para jogos', description: 'Criação de acessórios para personagens. Finalização da UC2.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
+                
+                // UC3 - Pintura Digital
+                { date: '2026-03-07', title: 'UC3 - Pintura digital para jogos', description: 'Início da terceira unidade curricular. Criação de malha 3D.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-03-14', title: 'UC3 - Pintura digital para jogos', description: 'Criação e configuração de mapeamento UV.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-03-21', title: 'UC3 - Pintura digital para jogos', description: 'Localização e marcação de arestas para pintura (seams).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-03-28', title: 'UC3 - Pintura digital para jogos', description: 'Utilizar e exportar diferentes formatos de arquivo.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-04-04', title: 'UC3 - Pintura digital para jogos', description: 'Criação e configuração de ambientes transitáveis (bake).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-04-11', title: 'UC3 - Pintura digital para jogos', description: 'Criação e configuração de texturas e materiais.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-04-18', title: 'UC3 - Pintura digital para jogos', description: 'Exportação de objetos.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-04-25', title: 'UC3 - Pintura digital para jogos', description: 'Técnicas avançadas de pintura digital.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-05-02', title: 'UC3 - Pintura digital para jogos', description: 'Projeto prático de pintura digital.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                { date: '2026-05-09', title: 'UC3 - Pintura digital para jogos', description: 'Finalização da UC3 - Revisão e entrega de projetos.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 3 },
+                
+                // UC4 - Riggings e Animação
+                { date: '2026-05-16', title: 'UC4 - Riggings e animação para jogos', description: 'Início da quarta unidade curricular. Técnicas para criação de estrutura óssea de personagens 3D.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-05-23', title: 'UC4 - Riggings e animação para jogos', description: 'Criação e configuração de armação de personagens (armatures).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-05-30', title: 'UC4 - Riggings e animação para jogos', description: 'Relacionamento entre bones e hierarquias.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-06-06', title: 'UC4 - Riggings e animação para jogos', description: 'Representação de estrutura óssea utilizando formas padrões (bones) e (custom shapes).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-06-13', title: 'UC4 - Riggings e animação para jogos', description: 'Configuração de estruturas para personagens bípedes.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-06-20', title: 'UC4 - Riggings e animação para jogos', description: 'Configuração de articulações para mãos e pés.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-06-27', title: 'UC4 - Riggings e animação para jogos', description: 'Uso do add-on rigify.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-07-04', title: 'UC4 - Riggings e animação para jogos', description: 'Construção de esqueletos para jogos e animações simples.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-07-11', title: 'UC4 - Riggings e animação para jogos', description: 'Elaboração controladores extras.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                { date: '2026-07-18', title: 'UC4 - Riggings e animação para jogos', description: 'Criação de cinemática inversa (IK). Finalização da UC4.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 4 },
+                
+                // UC5 - Game Engine
+                { date: '2026-07-25', title: 'UC5 - Game Engine', description: 'Início da quinta unidade curricular. Interface da Game Engine.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-08-01', title: 'UC5 - Game Engine', description: 'Organização de Projetos.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-08-08', title: 'UC5 - Game Engine', description: 'Criação de primitivas geométricas.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-08-15', title: 'UC5 - Game Engine', description: 'Importação e organização de assets do projeto.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-08-22', title: 'UC5 - Game Engine', description: 'Configuração de Texturas.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-08-29', title: 'UC5 - Game Engine', description: 'Criação e configuração de materiais.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-09-05', title: 'UC5 - Game Engine', description: 'Criação e configuração de Luzes, Skybox e Light Probes.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-09-12', title: 'UC5 - Game Engine', description: 'Configuração de Inputs (controles).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-09-19', title: 'UC5 - Game Engine', description: 'Criação e configuração de colisores.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                { date: '2026-09-26', title: 'UC5 - Game Engine', description: 'Criação de protótipos. Finalização da UC5.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 5 },
+                
+                // UC6 - Level Design
+                { date: '2026-10-03', title: 'UC6 - Level Design', description: 'Início da sexta unidade curricular. Importação e organização de assets do projeto.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-10-10', title: 'UC6 - Level Design', description: 'Aplicação e configuração de câmeras 2D e 3D.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-10-17', title: 'UC6 - Level Design', description: 'Configuração de biblioteca de assets.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-10-24', title: 'UC6 - Level Design', description: 'Composição de cenários a partir dos objetos 3D de bibliotecas de assets.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-10-31', title: 'UC6 - Level Design', description: 'Criação e composição de cenas (bakes).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-11-07', title: 'UC6 - Level Design', description: 'Criação e configuração de luzes (Light Probes e Lightmaps).', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-11-14', title: 'UC6 - Level Design', description: 'Exportação de arquivos para motor de jogo.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-11-21', title: 'UC6 - Level Design', description: 'Utilização de softwares de modelagem.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-11-28', title: 'UC6 - Level Design', description: 'Utilização de softwares de motor de jogo.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 },
+                { date: '2026-12-05', title: 'UC6 - Level Design', description: 'Finalização do curso. Apresentação de projetos finais.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 6 }
+            ],
+            curriculum: [
+                { id: 1, name: 'Modelagem de Cenários para Jogos', hours: 40, start: '2025-09-13', end: '2025-12-06', color: 'var(--uc1)' },
+                { id: 2, name: 'Modelagem de Personagens para Jogos', hours: 40, start: '2025-12-13', end: '2026-02-28', color: 'var(--uc2)' },
+                { id: 3, name: 'Pintura Digital para Jogos', hours: 40, start: '2026-03-07', end: '2026-05-09', color: 'var(--uc3)' },
+                { id: 4, name: 'Riggings e Animação para Jogos', hours: 40, start: '2026-05-16', end: '2026-07-18', color: 'var(--uc4)' },
+                { id: 5, name: 'Game Engine', hours: 40, start: '2026-07-25', end: '2026-09-26', color: 'var(--uc5)' },
+                { id: 6, name: 'Level Design', hours: 40, start: '2026-10-03', end: '2026-12-05', color: 'var(--uc6)' }
+            ]
+        };
+
+        // ==========================================
+        // ELEMENTOS DOM
+        // ==========================================
+
+        // Elementos de progresso
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const progressDates = document.getElementById('progress-dates');
+        const completedClassesEl = document.getElementById('completed-classes');
+        const remainingClassesEl = document.getElementById('remaining-classes');
+        const daysUntilEndEl = document.getElementById('days-until-end');
+        const currentUcEl = document.getElementById('current-uc');
+        const curriculumComponentsEl = document.getElementById('curriculum-components');
+        const timelineEl = document.getElementById('timeline');
+
+        // Elementos do modal
+        const modal = document.getElementById('class-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDate = document.getElementById('modal-date');
+        const modalBody = document.getElementById('modal-body');
+        const modalTeacher = document.getElementById('modal-teacher');
+        const modalDuration = document.getElementById('modal-duration');
+
+        // Elementos do jogo
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const startGameBtn = document.getElementById('start-game');
+        const pauseGameBtn = document.getElementById('pause-game');
+        const resetGameBtn = document.getElementById('reset-game');
+        const scoreEl = document.getElementById('score');
+        const highScoreEl = document.getElementById('high-score');
+        const obstaclesEl = document.getElementById('obstacles');
+
+        // ==========================================
+        // CONFIGURAÇÃO DO JOGO
+        // ==========================================
+
+        const gameConfig = {
+            gravity: 0.5,
+            jumpForce: -12,
+            groundLevel: canvas.height - 60,
+            obstacleWidth: 25,
+            minObstacleHeight: 40,
+            maxObstacleHeight: 80,
+            obstacleGap: 300,
+            playerWidth: 30,
+            playerHeight: 40
+        };
+
+        const dayColors = {
+            sky: '#87CEEB',
+            ground: '#8FBC8F',
+            track: '#D3D3D3'
+        };
+
+        const nightColors = {
+            sky: '#191970',
+            ground: '#2F4F4F',
+            track: '#696969'
+        };
+
+        const seasonColors = {
+            0: { accent: '#FF69B4', obstacle: '#32CD32' },
+            1: { accent: '#FF8C00', obstacle: '#1E90FF' },
+            2: { accent: '#D2691E', obstacle: '#FF4500' },
+            3: { accent: '#00BFFF', obstacle: '#F0F8FF' }
+        };
+
+        // ==========================================
+        // VARIÁVEIS DO JOGO
+        // ==========================================
+
+        let gameState = {
+            isRunning: false,
+            isPaused: false,
+            score: 0,
+            highScore: localStorage.getItem('highScore') || 0,
+            obstaclesPassed: 0,
+            speed: 3,
+            lastTime: 0,
+            animationFrame: 0,
+            dayNightCycle: 0,
+            season: 0
+        };
+
+        const player = {
+            x: 80,
+            y: canvas.height - gameConfig.playerHeight,
+            width: gameConfig.playerWidth,
+            height: gameConfig.playerHeight,
+            velocityY: 0,
+            isJumping: false,
+            color: '#ff3366',
+            animationFrame: 0
+        };
+
+        let obstacles = [];
+
+        // ==========================================
+        // INICIALIZAÇÃO
+        // ==========================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            renderCurriculumComponents();
+            renderTimeline();
+            setupEventListeners();
+            setupGame();
+            resetGame();
+            updateHighScore();
+        });
+
+        // ==========================================
+        // FUNÇÕES DO SISTEMA DO CURSO
+        // ==========================================
+
+        function updateProgress() {
+            const today = new Date();
+            const totalClasses = courseData.classes.filter(c => c.type === 'normal').length;
+            const completedClasses = courseData.classes.filter(c => {
+                const classDate = new Date(c.date);
+                return classDate < today && c.type === 'normal';
+            }).length;
+            
+            const progressPercentage = Math.round((completedClasses / totalClasses) * 100);
+            const remainingClasses = totalClasses - completedClasses;
+            
+            const timeDiff = courseData.endDate.getTime() - today.getTime();
+            const daysUntilEnd = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            
+            let currentUC = 0;
+            for (const uc of courseData.curriculum) {
+                const ucStart = new Date(uc.start);
+                const ucEnd = new Date(uc.end);
+                if (today >= ucStart && today <= ucEnd) {
+                    currentUC = uc.id;
+                    break;
+                }
+            }
+            
+            progressFill.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${progressPercentage}% Concluído`;
+            progressDates.textContent = `${completedClasses} de ${totalClasses} aulas`;
+            completedClassesEl.textContent = completedClasses;
+            remainingClassesEl.textContent = remainingClasses;
+            daysUntilEndEl.textContent = daysUntilEnd > 0 ? daysUntilEnd : 0;
+            currentUcEl.textContent = currentUC > 0 ? `UC${currentUC}` : 'Concluído';
+        }
+
+        function renderCurriculumComponents() {
+            const today = new Date();
+            let html = '';
+            
+            courseData.curriculum.forEach(uc => {
+                const startDate = new Date(uc.start);
+                const endDate = new Date(uc.end);
+                let status = 'upcoming';
+                
+                if (today > endDate) {
+                    status = 'completed';
+                } else if (today >= startDate && today <= endDate) {
+                    status = 'current';
+                }
+                
+                html += `<li>${uc.name} <span class="status-badge status-${status}">${getStatusText(status)}</span></li>`;
+            });
+            
+            curriculumComponentsEl.innerHTML = html;
+        }
+
+        function renderTimeline() {
+            let timelineHTML = '';
+            const today = new Date();
+            
+            courseData.classes.forEach(classItem => {
+                const classDate = new Date(classItem.date);
+                const isPast = classDate < today;
+                let eventClass = '';
+                let dateClass = 'timeline-date';
+                
+                if (classItem.type === 'holiday') {
+                    eventClass = 'event-holiday';
+                } else if (classItem.type === 'cancelled' || classItem.type === 'change') {
+                    eventClass = 'event-change';
+                }
+                
+                if (isPast && classItem.type === 'normal') {
+                    dateClass += ' completed';
+                } else if (classItem.type === 'cancelled') {
+                    dateClass += ' cancelled';
+                }
+                
+                timelineHTML += `
+                    <div class="timeline-item ${eventClass}" data-date="${classItem.date}">
+                        <div class="${dateClass}">${formatDate(classItem.date)}</div>
+                        <div class="timeline-content">
+                            <h4>${classItem.title}</h4>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            timelineEl.innerHTML = timelineHTML;
+        }
+
+        function setupEventListeners() {
+            modalClose.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            timelineEl.addEventListener('click', (e) => {
+                const timelineItem = e.target.closest('.timeline-item');
+                if (timelineItem && timelineItem.dataset.date) {
+                    showClassDetails(timelineItem.dataset.date);
+                }
+            });
+        }
+
+        function showClassDetails(date) {
+            const classItem = courseData.classes.find(c => c.date === date);
+            
+            if (!classItem) return;
+            
+            modalTitle.textContent = classItem.title;
+            modalDate.textContent = formatDate(date);
+            modalBody.innerHTML = `<p>${classItem.description}</p>`;
+            modalTeacher.textContent = `Professor: ${classItem.teacher || 'N/A'}`;
+            modalDuration.textContent = `Duração: ${classItem.duration}h`;
+            
+            modal.style.display = 'flex';
+        }
+
+        // ==========================================
+        // FUNÇÕES DO JOGO
+        // ==========================================
+
+        function setupGame() {
+            startGameBtn.addEventListener('click', startGame);
+            pauseGameBtn.addEventListener('click', togglePause);
+            resetGameBtn.addEventListener('click', resetGame);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'Space' && gameState.isRunning && !gameState.isPaused) {
+                    jump();
+                    e.preventDefault();
+                }
+            });
+            
+            canvas.addEventListener('click', function() {
+                if (gameState.isRunning && !gameState.isPaused) {
+                    jump();
+                }
+            });
+            
+            updateHighScore();
+        }
+
+        function startGame() {
+            if (!gameState.isRunning) {
+                gameState.isRunning = true;
+                gameState.isPaused = false;
+                startGameBtn.disabled = true;
+                pauseGameBtn.disabled = false;
+                resetGameBtn.disabled = false;
+                
+                gameState.lastTime = performance.now();
+                gameLoop();
+            }
+        }
+
+        function togglePause() {
+            if (gameState.isRunning) {
+                gameState.isPaused = !gameState.isPaused;
+                pauseGameBtn.textContent = gameState.isPaused ? 'Continuar' : 'Pausar';
+                
+                if (!gameState.isPaused) {
+                    gameState.lastTime = performance.now();
+                    gameLoop();
+                }
+            }
+        }
+
+        function resetGame() {
+            gameState.isRunning = false;
+            gameState.isPaused = false;
+            gameState.score = 0;
+            gameState.obstaclesPassed = 0;
+            gameState.speed = 3;
+            gameState.dayNightCycle = 0;
+            gameState.season = 0;
+            
+            startGameBtn.disabled = false;
+            pauseGameBtn.disabled = true;
+            resetGameBtn.disabled = true;
+            pauseGameBtn.textContent = 'Pausar';
+            
+            player.y = canvas.height - player.height;
+            player.velocityY = 0;
+            player.isJumping = false;
+            player.animationFrame = 0;
+            
+            obstacles = [];
+            
+            updateGameDisplay();
+            draw();
+        }
+
+        function jump() {
+            if (!player.isJumping) {
+                player.velocityY = gameConfig.jumpForce;
+                player.isJumping = true;
+            }
+        }
+
+        function gameLoop() {
+            if (!gameState.isRunning || gameState.isPaused) return;
+            
+            const currentTime = performance.now();
+            const deltaTime = currentTime - gameState.lastTime;
+            gameState.lastTime = currentTime;
+            
+            updatePhysics(deltaTime);
+            updateObstacles(deltaTime);
+            checkCollisions();
+            draw();
+            
+            if (gameState.score > 0 && gameState.score % 50 === 0) {
+                gameState.speed = 3 + Math.floor(gameState.score / 50) * 0.5;
+            }
+            
+            gameState.animationFrame = requestAnimationFrame(gameLoop);
+        }
+
+        function updatePhysics(deltaTime) {
+            player.velocityY += gameConfig.gravity;
+            player.y += player.velocityY;
+            
+            if (player.y > canvas.height - player.height) {
+                player.y = canvas.height - player.height;
+                player.velocityY = 0;
+                player.isJumping = false;
+            }
+            
+            player.animationFrame = (player.animationFrame + 1) % 20;
+        }
+
+        function updateObstacles(deltaTime) {
+            if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - gameConfig.obstacleGap) {
+                const height = Math.random() * (gameConfig.maxObstacleHeight - gameConfig.minObstacleHeight) + gameConfig.minObstacleHeight;
+                obstacles.push({
+                    x: canvas.width,
+                    y: canvas.height - height,
+                    width: gameConfig.obstacleWidth,
+                    height: height,
+                    passed: false
+                });
+            }
+            
+            for (let i = 0; i < obstacles.length; i++) {
+                obstacles[i].x -= gameState.speed;
+                
+                if (!obstacles[i].passed && obstacles[i].x + obstacles[i].width < player.x) {
+                    obstacles[i].passed = true;
+                    gameState.score += 10;
+                    gameState.obstaclesPassed++;
+                    
+                    if (gameState.score % 500 === 0) {
+                        gameState.dayNightCycle = (gameState.dayNightCycle + 1) % 2;
+                    }
+                    
+                    if (gameState.score % 1000 === 0) {
+                        gameState.season = (gameState.season + 1) % 4;
+                    }
+                    
+                    if (gameState.score > gameState.highScore) {
+                        gameState.highScore = gameState.score;
+                        localStorage.setItem('highScore', gameState.highScore);
+                        updateHighScore();
+                    }
+                    
+                    updateGameDisplay();
+                }
+                
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function checkCollisions() {
+            for (const obstacle of obstacles) {
+                if (
+                    player.x < obstacle.x + obstacle.width &&
+                    player.x + player.width > obstacle.x &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y
+                ) {
+                    gameOver();
+                    return;
+                }
+            }
+        }
+
+        function gameOver() {
+            gameState.isRunning = false;
+            startGameBtn.disabled = false;
+            pauseGameBtn.disabled = true;
+            
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Orbitron';
+            ctx.textAlign = 'center';
+            ctx.fillText('FIM DE JOGO!', canvas.width / 2, canvas.height / 2 - 20);
+            ctx.font = '20px Orbitron';
+            ctx.fillText(`Pontuação: ${gameState.score}`, canvas.width / 2, canvas.height / 2 + 20);
+            
+            setTimeout(() => {
+                resetGame();
+            }, 2000);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const colors = gameState.dayNightCycle === 0 ? dayColors : nightColors;
+            const seasonColor = seasonColors[gameState.season];
+            
+            ctx.fillStyle = colors.sky;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = colors.ground;
+            ctx.fillRect(0, canvas.height - 10, canvas.width, 10);
+            
+            ctx.fillStyle = colors.track;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.fillRect(i, canvas.height - 15, 20, 5);
+            }
+            
+            drawPlayer(seasonColor.accent);
+            
+            ctx.fillStyle = seasonColor.obstacle;
+            for (const obstacle of obstacles) {
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                
+                ctx.fillStyle = darkenColor(seasonColor.obstacle, 20);
+                ctx.fillRect(obstacle.x + 5, obstacle.y + 5, obstacle.width - 10, obstacle.height - 10);
+                ctx.fillStyle = seasonColor.obstacle;
+            }
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 18px Orbitron';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Pontuação: ${gameState.score}`, 10, 25);
+            
+            ctx.font = '12px Orbitron';
+            ctx.fillText(`Ciclo: ${gameState.dayNightCycle === 0 ? 'Dia' : 'Noite'}`, 10, 45);
+            ctx.fillText(`Estação: ${getSeasonName(gameState.season)}`, 10, 60);
+        }
+
+        function drawPlayer(color) {
+            const isRunning = !player.isJumping;
+            const frame = player.animationFrame;
+            
+            ctx.fillStyle = color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            ctx.fillStyle = lightenColor(color, 20);
+            ctx.beginPath();
+            ctx.arc(player.x + player.width/2, player.y - 8, 10, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(player.x + player.width/2 - 4, player.y - 10, 2, 0, Math.PI * 2);
+            ctx.arc(player.x + player.width/2 + 4, player.y - 10, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(player.x + player.width/2 - 4, player.y - 10, 1, 0, Math.PI * 2);
+            ctx.arc(player.x + player.width/2 + 4, player.y - 10, 1, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(player.x + player.width/2, player.y - 4, 4, 0.1, Math.PI - 0.1);
+            ctx.stroke();
+            
+            ctx.fillStyle = color;
+            if (isRunning) {
+                const armAngle = Math.sin(frame * 0.3) * 0.5;
+                drawArm(player.x - 4, player.y + 10, -0.5 - armAngle, color);
+                drawArm(player.x + player.width, player.y + 10, 0.5 + armAngle, color);
+            } else {
+                drawArm(player.x - 4, player.y + 10, -0.3, color);
+                drawArm(player.x + player.width, player.y + 10, 0.3, color);
+            }
+            
+            ctx.fillStyle = color;
+            if (isRunning) {
+                const legAngle = Math.sin(frame * 0.3) * 0.7;
+                drawLeg(player.x + 8, player.y + player.height, -0.3 - legAngle, color);
+                drawLeg(player.x + player.width - 8, player.y + player.height, 0.3 + legAngle, color);
+            } else {
+                drawLeg(player.x + 10, player.y + player.height, -0.2, color);
+                drawLeg(player.x + player.width - 10, player.y + player.height, 0.2, color);
+            }
+            
+            ctx.fillStyle = lightenColor(color, 20);
+            ctx.fillRect(player.x + 5, player.y + 5, player.width - 10, 8);
+        }
+
+        function updateGameDisplay() {
+            scoreEl.textContent = gameState.score;
+            obstaclesEl.textContent = gameState.obstaclesPassed;
+        }
+
+        function updateHighScore() {
+            highScoreEl.textContent = gameState.highScore;
+        }
+
+        // ==========================================
+        // FUNÇÕES UTILITÁRIAS
+        // ==========================================
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'completed': return 'Concluído';
+                case 'current': return 'Em Andamento';
+                case 'upcoming': return 'Próximo';
+                default: return '';
+            }
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        function darkenColor(color, percent) {
+            const num = parseInt(color.slice(1), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) - amt;
+            const G = (num >> 8 & 0x00FF) - amt;
+            const B = (num & 0x0000FF) - amt;
+            return "#" + (0x1000000 + (R < 0 ? 0 : R) * 0x10000 + (G < 0 ? 0 : G) * 0x100 + (B < 0 ? 0 : B)).toString(16).slice(1);
+        }
+
+        function lightenColor(color, percent) {
+            const num = parseInt(color.slice(1), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R > 255 ? 255 : R) * 0x10000 + (G > 255 ? 255 : G) * 0x100 + (B > 255 ? 255 : B)).toString(16).slice(1);
+        }
+
+        function getSeasonName(seasonIndex) {
+            const seasons = ['Primavera', 'Verão', 'Outono', 'Inverno'];
+            return seasons[seasonIndex];
+        }
+
+        function drawArm(x, y, angle, color) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 12, 6);
+            ctx.restore();
+        }
+
+        function drawLeg(x, y, angle, color) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 8, 15);
+            ctx.restore();
+        }
+
+        // Atualizar progresso a cada minuto
+        setInterval(updateProgress, 60000);
+    </script>
+</body>
+</html>
