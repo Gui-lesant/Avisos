@@ -994,7 +994,7 @@
                 </div>
             </div>
             <div class="game-container">
-                <div id="cosmic-game-container">
+                <div id="cosmic-game-container" tabindex="0">
                     <canvas id="cosmic-canvas"></canvas>
                     
                     <div id="ui-layer">
@@ -1971,8 +1971,16 @@
         }
 
         function setupCosmicEventListeners() {
-            // Teclado
+            // Teclado - apenas quando o jogo está rodando
             document.addEventListener('keydown', (e) => {
+                if (!gameState.running) return;
+                
+                // Prevenir comportamento padrão apenas para teclas do jogo
+                const gameKeys = [' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'a', 'd', 'w', 's', '1', '2', '3'];
+                if (gameKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+                
                 keys[e.key] = true;
                 
                 // Trocar armas com teclas numéricas
@@ -1982,7 +1990,20 @@
             });
             
             document.addEventListener('keyup', (e) => {
+                if (!gameState.running) return;
+                
+                const gameKeys = [' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'a', 'd', 'w', 's', '1', '2', '3'];
+                if (gameKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+                
                 keys[e.key] = false;
+            });
+            
+            // Focar no container do jogo quando clicar nele
+            const gameContainer = document.getElementById('cosmic-game-container');
+            gameContainer.addEventListener('click', () => {
+                gameContainer.focus();
             });
             
             // Controles móveis
@@ -2026,6 +2047,10 @@
             gameState.score = 0;
             gameState.level = 1;
             updateCosmicScore();
+            
+            // Focar no container do jogo
+            document.getElementById('cosmic-game-container').focus();
+            
             initCosmicGame();
         }
 
