@@ -189,101 +189,231 @@
         }
 
         /* Game Styles */
-        .game-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .game-canvas-container {
+        #cosmic-game-container {
             position: relative;
             width: 100%;
             max-width: 800px;
-            height: 400px;
-            background: linear-gradient(to bottom, #1a1a2e, #16213e);
-            border-radius: 15px;
+            height: 600px;
+            margin: 0 auto;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 40px rgba(0, 150, 255, 0.5);
+            border-radius: 10px;
             border: 3px solid var(--accent);
         }
 
-        #game-canvas {
+        #cosmic-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
         }
 
-        .game-controls {
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            gap: 15px;
-            margin-top: 15px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 10, 30, 0.85);
+            z-index: 10;
+            transition: opacity 0.5s;
         }
 
-        .game-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        #start-screen {
+            background: radial-gradient(ellipse at center, rgba(10, 20, 60, 0.9) 0%, rgba(0, 5, 20, 0.95) 100%);
+        }
+
+        #game-over-screen {
+            display: none;
+        }
+
+        .cosmic-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
-            border-radius: 30px;
+            border-radius: 50px;
             color: white;
             font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             text-transform: uppercase;
             letter-spacing: 1px;
+            pointer-events: auto;
         }
 
-        .game-btn:hover {
+        .cosmic-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 20px rgba(0, 150, 255, 0.6);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
         }
 
-        .game-btn:disabled {
-            background: rgba(255, 255, 255, 0.2);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .cosmic-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .game-stats {
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 3;
+        }
+
+        .hud-item {
+            margin-bottom: 15px;
             display: flex;
-            gap: 20px;
-            margin-top: 15px;
+            align-items: center;
         }
 
-        .stat {
-            background: rgba(40, 40, 50, 0.6);
-            padding: 12px 18px;
-            border-radius: 10px;
-            text-align: center;
-            min-width: 120px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        .hud-label {
+            font-size: 0.9rem;
+            color: var(--info);
+            margin-right: 10px;
+            text-shadow: 0 0 5px rgba(79, 195, 247, 0.7);
         }
 
-        .stat-value {
-            font-size: 1.8rem;
+        .hud-value {
+            font-size: 1.2rem;
             font-weight: bold;
-            color: var(--accent);
-            text-shadow: 0 0 5px rgba(255, 51, 102, 0.5);
+            color: #fff;
         }
 
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
+        #health-bar {
+            width: 200px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
             margin-top: 5px;
+            border: 2px solid var(--info);
         }
 
-        .game-instructions {
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
+        #health-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.3s;
+        }
+
+        #weapon-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+        }
+
+        .weapon-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(79, 195, 247, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+            border: 2px solid var(--info);
+            color: var(--info);
+            font-size: 1.2rem;
+        }
+
+        .weapon-icon.active {
+            background: rgba(79, 195, 247, 0.5);
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+        }
+
+        #mobile-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: none;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 3;
+            pointer-events: auto;
+        }
+
+        .control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(79, 195, 247, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            border: 2px solid rgba(79, 195, 247, 0.7);
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+            touch-action: manipulation;
+        }
+
+        #fire-btn {
+            background: rgba(255, 64, 129, 0.3);
+            border: 2px solid rgba(255, 64, 129, 0.7);
+            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+        }
+
+        #dpad {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dpad-row {
+            display: flex;
+        }
+
+        .dpad-btn {
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+        }
+
+        @media (max-width: 800px) {
+            #cosmic-game-container {
+                height: 500px;
+            }
+            
+            .cosmic-title {
+                font-size: 2.5rem;
+            }
+            
+            .cosmic-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            #mobile-controls {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #cosmic-game-container {
+                height: 400px;
+            }
         }
 
         /* Progress Styles */
@@ -833,15 +963,6 @@
             .game-stats, .progress-stats {
                 grid-template-columns: 1fr;
             }
-
-            .game-controls {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .game-btn {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -867,36 +988,70 @@
         <!-- Game Section -->
         <section class="game-section">
             <div class="section-header">
-                <h3 class="section-title">Jogo de Corrida com Obstáculos</h3>
+                <h3 class="section-title">Cosmic Defender - Jogo de Espaçonave</h3>
                 <div class="section-icon">
-                    <i class="fas fa-running"></i>
+                    <i class="fas fa-rocket"></i>
                 </div>
             </div>
             <div class="game-container">
-                <div class="game-canvas-container">
-                    <canvas id="game-canvas" width="800" height="400"></canvas>
-                </div>
-                <div class="game-controls">
-                    <button class="game-btn" id="start-game">Iniciar Jogo</button>
-                    <button class="game-btn" id="pause-game" disabled>Pausar</button>
-                    <button class="game-btn" id="reset-game">Reiniciar</button>
-                </div>
-                <div class="game-stats">
-                    <div class="stat">
-                        <div class="stat-value" id="score">0</div>
-                        <div class="stat-label">Pontuação</div>
+                <div id="cosmic-game-container">
+                    <canvas id="cosmic-canvas"></canvas>
+                    
+                    <div id="ui-layer">
+                        <div id="hud">
+                            <div class="hud-item">
+                                <div class="hud-label">PONTUAÇÃO</div>
+                                <div class="hud-value" id="score">0</div>
+                            </div>
+                            <div class="hud-item">
+                                <div class="hud-label">NÍVEL</div>
+                                <div class="hud-value" id="level">1</div>
+                            </div>
+                            <div class="hud-item">
+                                <div class="hud-label">VIDA</div>
+                                <div id="health-bar">
+                                    <div id="health-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="weapon-display">
+                            <div class="hud-label">ARMA</div>
+                            <div class="weapon-icon active" id="weapon-single"><i class="fas fa-bolt"></i></div>
+                            <div class="weapon-icon" id="weapon-burst"><i class="fas fa-gem"></i></div>
+                            <div class="weapon-icon" id="weapon-laser"><i class="fas fa-fire"></i></div>
+                        </div>
+                        
+                        <div id="mobile-controls">
+                            <div id="dpad">
+                                <div class="dpad-row">
+                                    <div class="control-btn dpad-btn" id="up-btn"><i class="fas fa-arrow-up"></i></div>
+                                </div>
+                                <div class="dpad-row">
+                                    <div class="control-btn dpad-btn" id="left-btn"><i class="fas fa-arrow-left"></i></div>
+                                    <div class="control-btn dpad-btn" id="down-btn"><i class="fas fa-arrow-down"></i></div>
+                                    <div class="control-btn dpad-btn" id="right-btn"><i class="fas fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                            <div class="control-btn" id="fire-btn"><i class="fas fa-crosshairs"></i></div>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value" id="high-score">0</div>
-                        <div class="stat-label">Recorde</div>
+                    
+                    <div id="start-screen" class="screen">
+                        <h1 class="cosmic-title">COSMIC DEFENDER</h1>
+                        <h2 class="cosmic-subtitle">Defenda a Galáxia</h2>
+                        <button class="cosmic-btn" id="start-btn">INICIAR MISSÃO</button>
+                        <div style="margin-top: 30px; text-align: center; max-width: 80%;">
+                            <p>Controles: WASD ou Setas para mover | Espaço para atirar | 1,2,3 para trocar armas</p>
+                            <p>Toque na tela para controles móveis</p>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value" id="obstacles">0</div>
-                        <div class="stat-label">Obstáculos</div>
+                    
+                    <div id="game-over-screen" class="screen">
+                        <h1 class="cosmic-title">MISSÃO FALHOU</h1>
+                        <h2 class="cosmic-subtitle" id="final-score">Pontuação: 0</h2>
+                        <button class="cosmic-btn" id="restart-btn">REINICIAR</button>
                     </div>
-                </div>
-                <div class="game-instructions">
-                    <p><i class="fas fa-info-circle"></i> Pressione ESPAÇO ou clique para pular os obstáculos</p>
                 </div>
             </div>
         </section>
@@ -1179,7 +1334,7 @@
                 
                 // UC2 - Modelagem de Personagens
                 { date: '2025-12-13', title: 'UC2 - Modelagem de personagens para jogos', description: 'Início da segunda unidade curricular. Modelagem poligonal para personagens humanoides.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
-                { date: '2025-12-19', title: 'Recesso de Fim de Ano', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
+                { date: '2025-12-20', title: 'Recesso Unidade', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
                 { date: '2025-12-27', title: 'Recesso Unidade', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
                 { date: '2026-01-03', title: 'Recesso Unidade', description: 'Período de recesso - não haverá aula.', teacher: '', duration: 0, type: 'holiday', uc: 0 },
                 { date: '2026-01-10', title: 'UC2 - Modelagem de personagens para jogos', description: 'Musculatura, membros superiores e inferiores.', teacher: 'Guilherme', duration: 4, type: 'normal', uc: 2 },
@@ -1250,7 +1405,7 @@
         };
 
         // ==========================================
-        // ELEMENTOS DOM
+        // ELEMENTOS DOM DO SISTEMA DO CURSO
         // ==========================================
 
         // Elementos de progresso
@@ -1272,95 +1427,6 @@
         const modalBody = document.getElementById('modal-body');
         const modalTeacher = document.getElementById('modal-teacher');
         const modalDuration = document.getElementById('modal-duration');
-
-        // Elementos do jogo
-        const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
-        const startGameBtn = document.getElementById('start-game');
-        const pauseGameBtn = document.getElementById('pause-game');
-        const resetGameBtn = document.getElementById('reset-game');
-        const scoreEl = document.getElementById('score');
-        const highScoreEl = document.getElementById('high-score');
-        const obstaclesEl = document.getElementById('obstacles');
-
-        // ==========================================
-        // CONFIGURAÇÃO DO JOGO
-        // ==========================================
-
-        const gameConfig = {
-            gravity: 0.5,
-            jumpForce: -12,
-            groundLevel: canvas.height - 60,
-            obstacleWidth: 25,
-            minObstacleHeight: 40,
-            maxObstacleHeight: 80,
-            obstacleGap: 300,
-            playerWidth: 30,
-            playerHeight: 40
-        };
-
-        const dayColors = {
-            sky: '#87CEEB',
-            ground: '#8FBC8F',
-            track: '#D3D3D3'
-        };
-
-        const nightColors = {
-            sky: '#191970',
-            ground: '#2F4F4F',
-            track: '#696969'
-        };
-
-        const seasonColors = {
-            0: { accent: '#FF69B4', obstacle: '#32CD32' },
-            1: { accent: '#FF8C00', obstacle: '#1E90FF' },
-            2: { accent: '#D2691E', obstacle: '#FF4500' },
-            3: { accent: '#00BFFF', obstacle: '#F0F8FF' }
-        };
-
-        // ==========================================
-        // VARIÁVEIS DO JOGO
-        // ==========================================
-
-        let gameState = {
-            isRunning: false,
-            isPaused: false,
-            score: 0,
-            highScore: localStorage.getItem('highScore') || 0,
-            obstaclesPassed: 0,
-            speed: 3,
-            lastTime: 0,
-            animationFrame: 0,
-            dayNightCycle: 0,
-            season: 0
-        };
-
-        const player = {
-            x: 80,
-            y: canvas.height - gameConfig.playerHeight,
-            width: gameConfig.playerWidth,
-            height: gameConfig.playerHeight,
-            velocityY: 0,
-            isJumping: false,
-            color: '#ff3366',
-            animationFrame: 0
-        };
-
-        let obstacles = [];
-
-        // ==========================================
-        // INICIALIZAÇÃO
-        // ==========================================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateProgress();
-            renderCurriculumComponents();
-            renderTimeline();
-            setupEventListeners();
-            setupGame();
-            resetGame();
-            updateHighScore();
-        });
 
         // ==========================================
         // FUNÇÕES DO SISTEMA DO CURSO
@@ -1489,300 +1555,7 @@
         }
 
         // ==========================================
-        // FUNÇÕES DO JOGO
-        // ==========================================
-
-        function setupGame() {
-            startGameBtn.addEventListener('click', startGame);
-            pauseGameBtn.addEventListener('click', togglePause);
-            resetGameBtn.addEventListener('click', resetGame);
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.code === 'Space' && gameState.isRunning && !gameState.isPaused) {
-                    jump();
-                    e.preventDefault();
-                }
-            });
-            
-            canvas.addEventListener('click', function() {
-                if (gameState.isRunning && !gameState.isPaused) {
-                    jump();
-                }
-            });
-            
-            updateHighScore();
-        }
-
-        function startGame() {
-            if (!gameState.isRunning) {
-                gameState.isRunning = true;
-                gameState.isPaused = false;
-                startGameBtn.disabled = true;
-                pauseGameBtn.disabled = false;
-                resetGameBtn.disabled = false;
-                
-                gameState.lastTime = performance.now();
-                gameLoop();
-            }
-        }
-
-        function togglePause() {
-            if (gameState.isRunning) {
-                gameState.isPaused = !gameState.isPaused;
-                pauseGameBtn.textContent = gameState.isPaused ? 'Continuar' : 'Pausar';
-                
-                if (!gameState.isPaused) {
-                    gameState.lastTime = performance.now();
-                    gameLoop();
-                }
-            }
-        }
-
-        function resetGame() {
-            gameState.isRunning = false;
-            gameState.isPaused = false;
-            gameState.score = 0;
-            gameState.obstaclesPassed = 0;
-            gameState.speed = 3;
-            gameState.dayNightCycle = 0;
-            gameState.season = 0;
-            
-            startGameBtn.disabled = false;
-            pauseGameBtn.disabled = true;
-            resetGameBtn.disabled = true;
-            pauseGameBtn.textContent = 'Pausar';
-            
-            player.y = canvas.height - player.height;
-            player.velocityY = 0;
-            player.isJumping = false;
-            player.animationFrame = 0;
-            
-            obstacles = [];
-            
-            updateGameDisplay();
-            draw();
-        }
-
-        function jump() {
-            if (!player.isJumping) {
-                player.velocityY = gameConfig.jumpForce;
-                player.isJumping = true;
-            }
-        }
-
-        function gameLoop() {
-            if (!gameState.isRunning || gameState.isPaused) return;
-            
-            const currentTime = performance.now();
-            const deltaTime = currentTime - gameState.lastTime;
-            gameState.lastTime = currentTime;
-            
-            updatePhysics(deltaTime);
-            updateObstacles(deltaTime);
-            checkCollisions();
-            draw();
-            
-            if (gameState.score > 0 && gameState.score % 50 === 0) {
-                gameState.speed = 3 + Math.floor(gameState.score / 50) * 0.5;
-            }
-            
-            gameState.animationFrame = requestAnimationFrame(gameLoop);
-        }
-
-        function updatePhysics(deltaTime) {
-            player.velocityY += gameConfig.gravity;
-            player.y += player.velocityY;
-            
-            if (player.y > canvas.height - player.height) {
-                player.y = canvas.height - player.height;
-                player.velocityY = 0;
-                player.isJumping = false;
-            }
-            
-            player.animationFrame = (player.animationFrame + 1) % 20;
-        }
-
-        function updateObstacles(deltaTime) {
-            if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - gameConfig.obstacleGap) {
-                const height = Math.random() * (gameConfig.maxObstacleHeight - gameConfig.minObstacleHeight) + gameConfig.minObstacleHeight;
-                obstacles.push({
-                    x: canvas.width,
-                    y: canvas.height - height,
-                    width: gameConfig.obstacleWidth,
-                    height: height,
-                    passed: false
-                });
-            }
-            
-            for (let i = 0; i < obstacles.length; i++) {
-                obstacles[i].x -= gameState.speed;
-                
-                if (!obstacles[i].passed && obstacles[i].x + obstacles[i].width < player.x) {
-                    obstacles[i].passed = true;
-                    gameState.score += 10;
-                    gameState.obstaclesPassed++;
-                    
-                    if (gameState.score % 500 === 0) {
-                        gameState.dayNightCycle = (gameState.dayNightCycle + 1) % 2;
-                    }
-                    
-                    if (gameState.score % 1000 === 0) {
-                        gameState.season = (gameState.season + 1) % 4;
-                    }
-                    
-                    if (gameState.score > gameState.highScore) {
-                        gameState.highScore = gameState.score;
-                        localStorage.setItem('highScore', gameState.highScore);
-                        updateHighScore();
-                    }
-                    
-                    updateGameDisplay();
-                }
-                
-                if (obstacles[i].x + obstacles[i].width < 0) {
-                    obstacles.splice(i, 1);
-                    i--;
-                }
-            }
-        }
-
-        function checkCollisions() {
-            for (const obstacle of obstacles) {
-                if (
-                    player.x < obstacle.x + obstacle.width &&
-                    player.x + player.width > obstacle.x &&
-                    player.y < obstacle.y + obstacle.height &&
-                    player.y + player.height > obstacle.y
-                ) {
-                    gameOver();
-                    return;
-                }
-            }
-        }
-
-        function gameOver() {
-            gameState.isRunning = false;
-            startGameBtn.disabled = false;
-            pauseGameBtn.disabled = true;
-            
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 24px Orbitron';
-            ctx.textAlign = 'center';
-            ctx.fillText('FIM DE JOGO!', canvas.width / 2, canvas.height / 2 - 20);
-            ctx.font = '20px Orbitron';
-            ctx.fillText(`Pontuação: ${gameState.score}`, canvas.width / 2, canvas.height / 2 + 20);
-            
-            setTimeout(() => {
-                resetGame();
-            }, 2000);
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const colors = gameState.dayNightCycle === 0 ? dayColors : nightColors;
-            const seasonColor = seasonColors[gameState.season];
-            
-            ctx.fillStyle = colors.sky;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = colors.ground;
-            ctx.fillRect(0, canvas.height - 10, canvas.width, 10);
-            
-            ctx.fillStyle = colors.track;
-            for (let i = 0; i < canvas.width; i += 40) {
-                ctx.fillRect(i, canvas.height - 15, 20, 5);
-            }
-            
-            drawPlayer(seasonColor.accent);
-            
-            ctx.fillStyle = seasonColor.obstacle;
-            for (const obstacle of obstacles) {
-                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-                
-                ctx.fillStyle = darkenColor(seasonColor.obstacle, 20);
-                ctx.fillRect(obstacle.x + 5, obstacle.y + 5, obstacle.width - 10, obstacle.height - 10);
-                ctx.fillStyle = seasonColor.obstacle;
-            }
-            
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 18px Orbitron';
-            ctx.textAlign = 'left';
-            ctx.fillText(`Pontuação: ${gameState.score}`, 10, 25);
-            
-            ctx.font = '12px Orbitron';
-            ctx.fillText(`Ciclo: ${gameState.dayNightCycle === 0 ? 'Dia' : 'Noite'}`, 10, 45);
-            ctx.fillText(`Estação: ${getSeasonName(gameState.season)}`, 10, 60);
-        }
-
-        function drawPlayer(color) {
-            const isRunning = !player.isJumping;
-            const frame = player.animationFrame;
-            
-            ctx.fillStyle = color;
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            
-            ctx.fillStyle = lightenColor(color, 20);
-            ctx.beginPath();
-            ctx.arc(player.x + player.width/2, player.y - 8, 10, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(player.x + player.width/2 - 4, player.y - 10, 2, 0, Math.PI * 2);
-            ctx.arc(player.x + player.width/2 + 4, player.y - 10, 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.fillStyle = '#333';
-            ctx.beginPath();
-            ctx.arc(player.x + player.width/2 - 4, player.y - 10, 1, 0, Math.PI * 2);
-            ctx.arc(player.x + player.width/2 + 4, player.y - 10, 1, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(player.x + player.width/2, player.y - 4, 4, 0.1, Math.PI - 0.1);
-            ctx.stroke();
-            
-            ctx.fillStyle = color;
-            if (isRunning) {
-                const armAngle = Math.sin(frame * 0.3) * 0.5;
-                drawArm(player.x - 4, player.y + 10, -0.5 - armAngle, color);
-                drawArm(player.x + player.width, player.y + 10, 0.5 + armAngle, color);
-            } else {
-                drawArm(player.x - 4, player.y + 10, -0.3, color);
-                drawArm(player.x + player.width, player.y + 10, 0.3, color);
-            }
-            
-            ctx.fillStyle = color;
-            if (isRunning) {
-                const legAngle = Math.sin(frame * 0.3) * 0.7;
-                drawLeg(player.x + 8, player.y + player.height, -0.3 - legAngle, color);
-                drawLeg(player.x + player.width - 8, player.y + player.height, 0.3 + legAngle, color);
-            } else {
-                drawLeg(player.x + 10, player.y + player.height, -0.2, color);
-                drawLeg(player.x + player.width - 10, player.y + player.height, 0.2, color);
-            }
-            
-            ctx.fillStyle = lightenColor(color, 20);
-            ctx.fillRect(player.x + 5, player.y + 5, player.width - 10, 8);
-        }
-
-        function updateGameDisplay() {
-            scoreEl.textContent = gameState.score;
-            obstaclesEl.textContent = gameState.obstaclesPassed;
-        }
-
-        function updateHighScore() {
-            highScoreEl.textContent = gameState.highScore;
-        }
-
-        // ==========================================
-        // FUNÇÕES UTILITÁRIAS
+        // FUNÇÕES UTILITÁRIAS DO SISTEMA DO CURSO
         // ==========================================
 
         function getStatusText(status) {
@@ -1799,49 +1572,768 @@
             return date.toLocaleDateString('pt-BR');
         }
 
-        function darkenColor(color, percent) {
-            const num = parseInt(color.slice(1), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = (num >> 16) - amt;
-            const G = (num >> 8 & 0x00FF) - amt;
-            const B = (num & 0x0000FF) - amt;
-            return "#" + (0x1000000 + (R < 0 ? 0 : R) * 0x10000 + (G < 0 ? 0 : G) * 0x100 + (B < 0 ? 0 : B)).toString(16).slice(1);
+        // ==========================================
+        // INICIALIZAÇÃO DO SISTEMA DO CURSO
+        // ==========================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            renderCurriculumComponents();
+            renderTimeline();
+            setupEventListeners();
+            
+            // Atualizar progresso a cada minuto
+            setInterval(updateProgress, 60000);
+        });
+
+        // ==========================================
+        // JOGO COSMIC DEFENDER
+        // ==========================================
+
+        // Configurações do jogo
+        const CONFIG = {
+            canvas: {
+                width: 800,
+                height: 600
+            },
+            player: {
+                width: 40,
+                height: 50,
+                speed: 5,
+                maxHealth: 100
+            },
+            weapons: {
+                single: { damage: 10, speed: 8, color: '#4fc3f7', cooldown: 15 },
+                burst: { damage: 7, speed: 10, color: '#ff4081', cooldown: 5, burstCount: 3 },
+                laser: { damage: 15, speed: 12, color: '#ffeb3b', cooldown: 30, duration: 10 }
+            },
+            enemies: {
+                basic: { health: 30, speed: 2, color: '#ff5252', points: 10 },
+                fast: { health: 20, speed: 4, color: '#ff9800', points: 15 },
+                tank: { health: 100, speed: 1, color: '#795548', points: 30 },
+                kamikaze: { health: 10, speed: 3, color: '#e91e63', points: 20 }
+            }
+        };
+
+        // Elementos do DOM do jogo
+        let cosmicCanvas, cosmicCtx, startScreen, gameOverScreen, startBtn, restartBtn;
+        let scoreEl, levelEl, healthFill, finalScoreEl, weaponIcons;
+
+        // Estado do jogo
+        let gameState = {
+            running: false,
+            score: 0,
+            level: 1,
+            screenShake: 0,
+            lastTime: 0,
+            stars: []
+        };
+
+        // Classes do jogo
+        class Player {
+            constructor() {
+                this.x = CONFIG.canvas.width / 2;
+                this.y = CONFIG.canvas.height - 100;
+                this.width = CONFIG.player.width;
+                this.height = CONFIG.player.height;
+                this.speed = CONFIG.player.speed;
+                this.health = CONFIG.player.maxHealth;
+                this.maxHealth = CONFIG.player.maxHealth;
+                this.weapon = 'single';
+                this.weaponCooldown = 0;
+                this.invulnerable = 0;
+                this.direction = { x: 0, y: 0 };
+            }
+
+            update() {
+                // Movimento
+                this.x += this.direction.x * this.speed;
+                this.y += this.direction.y * this.speed;
+
+                // Limites da tela
+                this.x = Math.max(this.width/2, Math.min(CONFIG.canvas.width - this.width/2, this.x));
+                this.y = Math.max(this.height/2, Math.min(CONFIG.canvas.height - this.height/2, this.y));
+
+                // Cooldown da arma
+                if (this.weaponCooldown > 0) this.weaponCooldown--;
+
+                // Invulnerabilidade pós-dano
+                if (this.invulnerable > 0) this.invulnerable--;
+            }
+
+            draw() {
+                cosmicCtx.save();
+                
+                // Efeito de invulnerabilidade (piscar)
+                if (this.invulnerable > 0 && Math.floor(this.invulnerable / 5) % 2 === 0) {
+                    cosmicCtx.globalAlpha = 0.5;
+                }
+
+                // Desenhar nave do jogador
+                cosmicCtx.fillStyle = '#4fc3f7';
+                cosmicCtx.beginPath();
+                cosmicCtx.moveTo(this.x, this.y - this.height/2);
+                cosmicCtx.lineTo(this.x + this.width/2, this.y + this.height/2);
+                cosmicCtx.lineTo(this.x - this.width/2, this.y + this.height/2);
+                cosmicCtx.closePath();
+                cosmicCtx.fill();
+
+                // Detalhes da nave
+                cosmicCtx.fillStyle = '#0288d1';
+                cosmicCtx.fillRect(this.x - 5, this.y + this.height/2 - 10, 10, 10);
+
+                cosmicCtx.restore();
+            }
+
+            shoot() {
+                if (this.weaponCooldown > 0) return [];
+
+                const weaponConfig = CONFIG.weapons[this.weapon];
+                this.weaponCooldown = weaponConfig.cooldown;
+                
+                let bullets = [];
+                
+                switch(this.weapon) {
+                    case 'single':
+                        bullets.push(new Bullet(this.x, this.y - this.height/2, 0, -weaponConfig.speed, weaponConfig));
+                        break;
+                    
+                    case 'burst':
+                        for (let i = 0; i < weaponConfig.burstCount; i++) {
+                            const angle = -Math.PI/2 + (i - 1) * 0.2;
+                            bullets.push(new Bullet(
+                                this.x, 
+                                this.y - this.height/2, 
+                                Math.sin(angle) * weaponConfig.speed, 
+                                Math.cos(angle) * weaponConfig.speed, 
+                                weaponConfig
+                            ));
+                        }
+                        break;
+                    
+                    case 'laser':
+                        bullets.push(new Laser(this.x, this.y - this.height/2, 0, -weaponConfig.speed, weaponConfig));
+                        break;
+                }
+                
+                return bullets;
+            }
+
+            takeDamage(amount) {
+                if (this.invulnerable > 0) return;
+                
+                this.health -= amount;
+                this.invulnerable = 60; // 1 segundo de invulnerabilidade
+                gameState.screenShake = 10;
+                
+                // Atualizar barra de vida
+                updateHealthBar();
+                
+                // Criar partículas de dano
+                for (let i = 0; i < 10; i++) {
+                    particles.push(new Particle(
+                        this.x, 
+                        this.y, 
+                        (Math.random() - 0.5) * 4, 
+                        (Math.random() - 0.5) * 4,
+                        '#ff5252',
+                        30
+                    ));
+                }
+                
+                return this.health <= 0;
+            }
+
+            setWeapon(weaponType) {
+                if (CONFIG.weapons[weaponType]) {
+                    this.weapon = weaponType;
+                    
+                    // Atualizar ícones de arma
+                    Object.keys(weaponIcons).forEach(key => {
+                        weaponIcons[key].classList.toggle('active', key === weaponType);
+                    });
+                }
+            }
         }
 
-        function lightenColor(color, percent) {
-            const num = parseInt(color.slice(1), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = (num >> 16) + amt;
-            const G = (num >> 8 & 0x00FF) + amt;
-            const B = (num & 0x0000FF) + amt;
-            return "#" + (0x1000000 + (R > 255 ? 255 : R) * 0x10000 + (G > 255 ? 255 : G) * 0x100 + (B > 255 ? 255 : B)).toString(16).slice(1);
+        class Bullet {
+            constructor(x, y, vx, vy, config) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.width = 4;
+                this.height = 12;
+                this.color = config.color;
+                this.damage = config.damage;
+                this.speed = config.speed;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                return this.y > 0 && this.y < CONFIG.canvas.height && 
+                       this.x > 0 && this.x < CONFIG.canvas.width;
+            }
+
+            draw() {
+                cosmicCtx.fillStyle = this.color;
+                cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Brilho da bala
+                cosmicCtx.fillStyle = '#ffffff';
+                cosmicCtx.fillRect(this.x - this.width/4, this.y - this.height/2, this.width/2, this.height);
+            }
         }
 
-        function getSeasonName(seasonIndex) {
-            const seasons = ['Primavera', 'Verão', 'Outono', 'Inverno'];
-            return seasons[seasonIndex];
+        class Laser extends Bullet {
+            constructor(x, y, vx, vy, config) {
+                super(x, y, vx, vy, config);
+                this.width = 8;
+                this.height = 20;
+                this.duration = config.duration;
+            }
+
+            draw() {
+                // Gradiente para efeito de laser
+                const gradient = cosmicCtx.createLinearGradient(this.x - this.width/2, this.y - this.height/2, this.x + this.width/2, this.y + this.height/2);
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(0.5, this.color);
+                gradient.addColorStop(1, '#ffffff');
+                
+                cosmicCtx.fillStyle = gradient;
+                cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Brilho externo
+                cosmicCtx.shadowColor = this.color;
+                cosmicCtx.shadowBlur = 10;
+                cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                cosmicCtx.shadowBlur = 0;
+            }
         }
 
-        function drawArm(x, y, angle, color) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(angle);
-            ctx.fillStyle = color;
-            ctx.fillRect(0, 0, 12, 6);
-            ctx.restore();
+        class Enemy {
+            constructor(type, x, y) {
+                this.type = type;
+                this.config = CONFIG.enemies[type];
+                this.x = x;
+                this.y = y;
+                this.width = 30;
+                this.height = 30;
+                this.health = this.config.health;
+                this.speed = this.config.speed;
+                this.color = this.config.color;
+                this.points = this.config.points;
+            }
+
+            update() {
+                // Movimento baseado no tipo de inimigo
+                switch(this.type) {
+                    case 'basic':
+                        this.y += this.speed;
+                        break;
+                    case 'fast':
+                        this.y += this.speed;
+                        this.x += Math.sin(this.y * 0.05) * 2;
+                        break;
+                    case 'tank':
+                        this.y += this.speed;
+                        break;
+                    case 'kamikaze':
+                        // Movimento em direção ao jogador
+                        const dx = player.x - this.x;
+                        const dy = player.y - this.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        this.x += (dx / dist) * this.speed;
+                        this.y += (dy / dist) * this.speed;
+                        break;
+                }
+                
+                return this.y < CONFIG.canvas.height + 50;
+            }
+
+            draw() {
+                cosmicCtx.fillStyle = this.color;
+                
+                // Formas diferentes baseadas no tipo
+                switch(this.type) {
+                    case 'basic':
+                        cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                        break;
+                    case 'fast':
+                        cosmicCtx.beginPath();
+                        cosmicCtx.arc(this.x, this.y, this.width/2, 0, Math.PI * 2);
+                        cosmicCtx.fill();
+                        break;
+                    case 'tank':
+                        cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                        // Detalhes do tanque
+                        cosmicCtx.fillStyle = '#5d4037';
+                        cosmicCtx.fillRect(this.x - this.width/4, this.y - this.height/4, this.width/2, this.height/2);
+                        break;
+                    case 'kamikaze':
+                        cosmicCtx.beginPath();
+                        cosmicCtx.moveTo(this.x, this.y - this.height/2);
+                        cosmicCtx.lineTo(this.x + this.width/2, this.y + this.height/2);
+                        cosmicCtx.lineTo(this.x - this.width/2, this.y + this.height/2);
+                        cosmicCtx.closePath();
+                        cosmicCtx.fill();
+                        break;
+                }
+                
+                // Barra de saúde (para inimigos com mais vida)
+                if (this.health < this.config.health) {
+                    cosmicCtx.fillStyle = '#ff0000';
+                    cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2 - 10, this.width, 5);
+                    cosmicCtx.fillStyle = '#00ff00';
+                    cosmicCtx.fillRect(this.x - this.width/2, this.y - this.height/2 - 10, this.width * (this.health / this.config.health), 5);
+                }
+            }
+
+            takeDamage(amount) {
+                this.health -= amount;
+                return this.health <= 0;
+            }
         }
 
-        function drawLeg(x, y, angle, color) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(angle);
-            ctx.fillStyle = color;
-            ctx.fillRect(0, 0, 8, 15);
-            ctx.restore();
+        class Particle {
+            constructor(x, y, vx, vy, color, life) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.color = color;
+                this.life = life;
+                this.maxLife = life;
+                this.size = Math.random() * 3 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+                return this.life > 0;
+            }
+
+            draw() {
+                const alpha = this.life / this.maxLife;
+                cosmicCtx.globalAlpha = alpha;
+                cosmicCtx.fillStyle = this.color;
+                cosmicCtx.beginPath();
+                cosmicCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                cosmicCtx.fill();
+                cosmicCtx.globalAlpha = 1;
+            }
         }
 
-        // Atualizar progresso a cada minuto
-        setInterval(updateProgress, 60000);
+        // Variáveis globais do jogo
+        let player;
+        let bullets = [];
+        let enemies = [];
+        let particles = [];
+        let keys = {};
+        let animationId;
+        let spawnTimer = 0;
+        let levelProgress = 0;
+
+        // Inicialização do jogo
+        function initCosmicGame() {
+            // Configurar canvas
+            cosmicCanvas.width = CONFIG.canvas.width;
+            cosmicCanvas.height = CONFIG.canvas.height;
+            
+            // Criar jogador
+            player = new Player();
+            
+            // Inicializar estrelas de fundo
+            initStars();
+            
+            // Configurar eventos
+            setupCosmicEventListeners();
+            
+            // Iniciar loop do jogo
+            gameState.running = true;
+            gameState.lastTime = performance.now();
+            animationId = requestAnimationFrame(cosmicGameLoop);
+        }
+
+        function initStars() {
+            gameState.stars = [];
+            for (let i = 0; i < 200; i++) {
+                gameState.stars.push({
+                    x: Math.random() * CONFIG.canvas.width,
+                    y: Math.random() * CONFIG.canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 2 + 0.5,
+                    layer: Math.floor(Math.random() * 3) + 1
+                });
+            }
+        }
+
+        function setupCosmicEventListeners() {
+            // Teclado
+            document.addEventListener('keydown', (e) => {
+                keys[e.key] = true;
+                
+                // Trocar armas com teclas numéricas
+                if (e.key === '1') player.setWeapon('single');
+                if (e.key === '2') player.setWeapon('burst');
+                if (e.key === '3') player.setWeapon('laser');
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                keys[e.key] = false;
+            });
+            
+            // Controles móveis
+            setupMobileControls();
+        }
+
+        function setupMobileControls() {
+            const controlBtns = document.querySelectorAll('.control-btn');
+            
+            controlBtns.forEach(btn => {
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const id = e.target.closest('.control-btn').id;
+                    
+                    if (id === 'up-btn') player.direction.y = -1;
+                    if (id === 'down-btn') player.direction.y = 1;
+                    if (id === 'left-btn') player.direction.x = -1;
+                    if (id === 'right-btn') player.direction.x = 1;
+                    if (id === 'fire-btn') {
+                        // Tiro automático em dispositivos móveis
+                        if (!keys[' ']) {
+                            keys[' '] = true;
+                            setTimeout(() => { keys[' '] = false; }, 100);
+                        }
+                    }
+                });
+                
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    const id = e.target.closest('.control-btn').id;
+                    
+                    if (id === 'up-btn' || id === 'down-btn') player.direction.y = 0;
+                    if (id === 'left-btn' || id === 'right-btn') player.direction.x = 0;
+                });
+            });
+        }
+
+        function startCosmicGame() {
+            console.log("Iniciando jogo...");
+            startScreen.style.display = 'none';
+            gameState.score = 0;
+            gameState.level = 1;
+            updateCosmicScore();
+            initCosmicGame();
+        }
+
+        function restartCosmicGame() {
+            gameOverScreen.style.display = 'none';
+            bullets = [];
+            enemies = [];
+            particles = [];
+            spawnTimer = 0;
+            levelProgress = 0;
+            startCosmicGame();
+        }
+
+        function cosmicGameOver() {
+            gameState.running = false;
+            cancelAnimationFrame(animationId);
+            finalScoreEl.textContent = `Pontuação: ${gameState.score}`;
+            gameOverScreen.style.display = 'flex';
+        }
+
+        // Loop principal do jogo
+        function cosmicGameLoop(currentTime) {
+            const deltaTime = currentTime - gameState.lastTime;
+            gameState.lastTime = currentTime;
+            
+            // Atualizar
+            updateCosmicGame(deltaTime);
+            
+            // Renderizar
+            renderCosmicGame();
+            
+            // Continuar loop
+            if (gameState.running) {
+                animationId = requestAnimationFrame(cosmicGameLoop);
+            }
+        }
+
+        function updateCosmicGame(deltaTime) {
+            // Processar entrada
+            handleCosmicInput();
+            
+            // Atualizar jogador
+            player.update();
+            
+            // Atualizar balas
+            bullets = bullets.filter(bullet => bullet.update());
+            
+            // Atualizar inimigos
+            enemies = enemies.filter(enemy => enemy.update());
+            
+            // Atualizar partículas
+            particles = particles.filter(particle => particle.update());
+            
+            // Gerar inimigos
+            spawnEnemies(deltaTime);
+            
+            // Verificar colisões
+            checkCosmicCollisions();
+            
+            // Atualizar progresso do nível
+            updateCosmicLevel();
+        }
+
+        function handleCosmicInput() {
+            // Movimento
+            player.direction.x = 0;
+            player.direction.y = 0;
+            
+            if (keys['ArrowLeft'] || keys['a'] || keys['A']) player.direction.x = -1;
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) player.direction.x = 1;
+            if (keys['ArrowUp'] || keys['w'] || keys['W']) player.direction.y = -1;
+            if (keys['ArrowDown'] || keys['s'] || keys['S']) player.direction.y = 1;
+            
+            // Tiro
+            if (keys[' ']) {
+                const newBullets = player.shoot();
+                bullets.push(...newBullets);
+            }
+        }
+
+        function spawnEnemies(deltaTime) {
+            spawnTimer += deltaTime;
+            
+            // Intervalo de spawn baseado no nível
+            const spawnInterval = Math.max(500, 1000 - gameState.level * 100);
+            
+            if (spawnTimer > spawnInterval) {
+                spawnTimer = 0;
+                
+                // Tipos de inimigos baseados no nível
+                let enemyTypes = ['basic'];
+                if (gameState.level >= 2) enemyTypes.push('fast');
+                if (gameState.level >= 3) enemyTypes.push('kamikaze');
+                if (gameState.level >= 4) enemyTypes.push('tank');
+                
+                // Escolher tipo aleatório
+                const type = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+                
+                // Posição aleatória no topo da tela
+                const x = Math.random() * (CONFIG.canvas.width - 60) + 30;
+                
+                enemies.push(new Enemy(type, x, -30));
+                
+                // Incrementar progresso do nível
+                levelProgress++;
+            }
+        }
+
+        function checkCosmicCollisions() {
+            // Colisões bala-inimigo
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    const bullet = bullets[i];
+                    const enemy = enemies[j];
+                    
+                    // Verificar colisão simples (retângulo)
+                    if (Math.abs(bullet.x - enemy.x) < (bullet.width + enemy.width)/2 &&
+                        Math.abs(bullet.y - enemy.y) < (bullet.height + enemy.height)/2) {
+                        
+                        // Inimigo atingido
+                        if (enemy.takeDamage(bullet.damage)) {
+                            // Inimigo destruído
+                            gameState.score += enemy.points;
+                            updateCosmicScore();
+                            
+                            // Criar explosão
+                            createExplosion(enemy.x, enemy.y, enemy.color);
+                            
+                            // Remover inimigo
+                            enemies.splice(j, 1);
+                        }
+                        
+                        // Remover bala (a menos que seja laser)
+                        if (!(bullet instanceof Laser)) {
+                            bullets.splice(i, 1);
+                        }
+                        
+                        break;
+                    }
+                }
+            }
+            
+            // Colisões jogador-inimigo
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                
+                if (Math.abs(player.x - enemy.x) < (player.width + enemy.width)/2 &&
+                    Math.abs(player.y - enemy.y) < (player.height + enemy.height)/2) {
+                    
+                    // Dano ao jogador
+                    if (player.takeDamage(20)) {
+                        cosmicGameOver();
+                        return;
+                    }
+                    
+                    // Inimigo destruído (kamikaze)
+                    if (enemy.type === 'kamikaze') {
+                        gameState.score += enemy.points;
+                        updateCosmicScore();
+                        createExplosion(enemy.x, enemy.y, enemy.color);
+                        enemies.splice(i, 1);
+                    }
+                }
+            }
+        }
+
+        function createExplosion(x, y, color) {
+            gameState.screenShake = 15;
+            
+            for (let i = 0; i < 20; i++) {
+                particles.push(new Particle(
+                    x, 
+                    y, 
+                    (Math.random() - 0.5) * 8, 
+                    (Math.random() - 0.5) * 8,
+                    color,
+                    Math.random() * 30 + 20
+                ));
+            }
+        }
+
+        function updateCosmicLevel() {
+            const levelThreshold = 10 + gameState.level * 5;
+            
+            if (levelProgress >= levelThreshold) {
+                gameState.level++;
+                levelProgress = 0;
+                levelEl.textContent = gameState.level;
+                
+                // Efeito visual de mudança de nível
+                gameState.screenShake = 30;
+                
+                // Recuperar um pouco de vida
+                player.health = Math.min(player.maxHealth, player.health + 20);
+                updateHealthBar();
+                
+                // Criar efeito visual
+                for (let i = 0; i < 50; i++) {
+                    particles.push(new Particle(
+                        CONFIG.canvas.width / 2,
+                        CONFIG.canvas.height / 2,
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10,
+                        '#4fc3f7',
+                        60
+                    ));
+                }
+            }
+        }
+
+        function renderCosmicGame() {
+            // Limpar canvas com efeito de screen shake
+            let shakeX = 0;
+            let shakeY = 0;
+            
+            if (gameState.screenShake > 0) {
+                shakeX = (Math.random() - 0.5) * gameState.screenShake;
+                shakeY = (Math.random() - 0.5) * gameState.screenShake;
+                gameState.screenShake--;
+            }
+            
+            cosmicCtx.setTransform(1, 0, 0, 1, shakeX, shakeY);
+            cosmicCtx.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
+            
+            // Desenhar fundo estrelado
+            drawStars();
+            
+            // Desenhar elementos do jogo
+            bullets.forEach(bullet => bullet.draw());
+            enemies.forEach(enemy => enemy.draw());
+            particles.forEach(particle => particle.draw());
+            player.draw();
+            
+            // Resetar transformação
+            cosmicCtx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+
+        function drawStars() {
+            cosmicCtx.fillStyle = '#ffffff';
+            
+            gameState.stars.forEach(star => {
+                // Mover estrela (efeito parallax)
+                star.y += star.speed * 0.05;
+                if (star.y > CONFIG.canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * CONFIG.canvas.width;
+                }
+                
+                // Tamanho baseado na camada (efeito de profundidade)
+                const size = star.size * star.layer;
+                const alpha = 0.5 / star.layer;
+                
+                cosmicCtx.globalAlpha = alpha;
+                cosmicCtx.beginPath();
+                cosmicCtx.arc(star.x, star.y, size, 0, Math.PI * 2);
+                cosmicCtx.fill();
+            });
+            
+            cosmicCtx.globalAlpha = 1;
+        }
+
+        function updateCosmicScore() {
+            scoreEl.textContent = gameState.score;
+        }
+
+        function updateHealthBar() {
+            const percent = player.health / player.maxHealth;
+            healthFill.style.width = `${percent * 100}%`;
+            
+            // Mudar cor baseada na saúde
+            if (percent > 0.6) {
+                healthFill.style.background = 'linear-gradient(90deg, #4caf50, #8bc34a)';
+            } else if (percent > 0.3) {
+                healthFill.style.background = 'linear-gradient(90deg, #ff9800, #ffc107)';
+            } else {
+                healthFill.style.background = 'linear-gradient(90deg, #f44336, #ff5252)';
+            }
+        }
+
+        // Inicializar o jogo quando a página carregar
+        window.addEventListener('load', function() {
+            // Inicializar elementos DOM do jogo
+            cosmicCanvas = document.getElementById('cosmic-canvas');
+            cosmicCtx = cosmicCanvas.getContext('2d');
+            startScreen = document.getElementById('start-screen');
+            gameOverScreen = document.getElementById('game-over-screen');
+            startBtn = document.getElementById('start-btn');
+            restartBtn = document.getElementById('restart-btn');
+            scoreEl = document.getElementById('score');
+            levelEl = document.getElementById('level');
+            healthFill = document.getElementById('health-fill');
+            finalScoreEl = document.getElementById('final-score');
+            weaponIcons = {
+                single: document.getElementById('weapon-single'),
+                burst: document.getElementById('weapon-burst'),
+                laser: document.getElementById('weapon-laser')
+            };
+            
+            // Configurar eventos dos botões
+            startBtn.addEventListener('click', startCosmicGame);
+            restartBtn.addEventListener('click', restartCosmicGame);
+            
+            // Configurar canvas
+            cosmicCanvas.width = CONFIG.canvas.width;
+            cosmicCanvas.height = CONFIG.canvas.height;
+            
+            console.log('Jogo Cosmic Defender carregado e pronto! Clique em "INICIAR MISSÃO" para começar.');
+        });
     </script>
 </body>
 </html>
